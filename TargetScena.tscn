@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://qaqlrw8w7jxg"]
+
+[ext_resource type="Script" path="res://Scripts/Target.cs" id="1_0c5a8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbkrh"]
+bg_color = Color(0.8, 0.45098, 0.760784, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jj7iw"]
+bg_color = Color(0.733333, 0.372549, 0.698039, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e5iq3"]
+bg_color = Color(0.537255, 0.231373, 0.509804, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iurvt"]
+bg_color = Color(0.313726, 0.117647, 0.298039, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_frwes"]
+
+[node name="Node2D" type="Button"]
+offset_right = 16.0
+offset_bottom = 16.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_qbkrh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jj7iw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e5iq3")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_iurvt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_frwes")
+script = ExtResource("1_0c5a8")

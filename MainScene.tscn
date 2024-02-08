@@ -1,0 +1,102 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkye64pkdsho8"]
+
+[ext_resource type="PackedScene" uid="uid://qaqlrw8w7jxg" path="res://TargetScena.tscn" id="1_f8le2"]
+[ext_resource type="Script" path="res://Scripts/PauseButton.cs" id="1_wgpxg"]
+[ext_resource type="Script" path="res://Scripts/Score.cs" id="2_enixs"]
+[ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_n6wxd"]
+[ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_xe5jn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
+bg_color = Color(0, 0.678431, 0.745098, 1)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2405"]
+bg_color = Color(0, 0.815686, 0.898039, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4im0d"]
+bg_color = Color(0, 0.290196, 0.321569, 1)
+corner_radius_top_left = 55
+corner_radius_top_right = 55
+corner_radius_bottom_right = 55
+corner_radius_bottom_left = 55
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptu8u"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_82n6w"]
+font_size = 28
+
+[node name="Scene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 0
+
+[node name="Pause button" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1079.0
+offset_top = 15.0
+offset_right = 1135.0
+offset_bottom = 71.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b2405")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4im0d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ptu8u")
+text = "||"
+script = ExtResource("1_wgpxg")
+
+[node name="Score" type="Node2D" parent="."]
+script = ExtResource("2_enixs")
+
+[node name="ScoreLabel" type="Label" parent="Score"]
+offset_left = 61.0
+offset_top = 38.0
+offset_right = 152.0
+offset_bottom = 80.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_82n6w")
+script = ExtResource("3_n6wxd")
+metadata/_edit_use_anchors_ = true
+
+[node name="SpawnTargetButton" type="Button" parent="Score"]
+offset_left = 847.0
+offset_top = 64.0
+offset_right = 975.0
+offset_bottom = 95.0
+text = "Spawn target"
+
+[node name="TargetSpawner" type="Node2D" parent="."]
+position = Vector2(453, 303)
+script = ExtResource("4_xe5jn")
+Rect = Rect2(-50, -25, 100, 50)
+_targetPrefab = ExtResource("1_f8le2")
+
+[node name="Target" parent="." instance=ExtResource("1_f8le2")]
+offset_left = 702.0
+offset_top = 68.0
+offset_right = 808.0
+offset_bottom = 99.0
+text = "Taaaargett"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="ScoreChanged" from="Score" to="Score/ScoreLabel" method="OnScoreChanged"]
+[connection signal="pressed" from="Score/SpawnTargetButton" to="TargetSpawner" method="Spawn"]
+[connection signal="timeout" from="Timer" to="TargetSpawner" method="Spawn"]
+
+[editable path="Target"]
