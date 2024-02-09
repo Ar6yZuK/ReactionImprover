@@ -5,8 +5,8 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 {
 	private readonly RandomNumberGenerator _rand = new();
 
-	private Rect2 _rect;
 	private bool _autoPosition = true;
+	private Rect2 _rect;
 
 	[Export] bool AutoPosition
 	{
@@ -14,17 +14,16 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 		set
 		{
 			if(_autoPosition = value)
-#pragma warning disable CA2245
-				Rect = Rect;
-#pragma warning restore CA2245
+				Rect = _rect;
 		}
 	}
 
-	[Export] Rect2 Rect 
+	[Export] Rect2 Rect
 	{ 
 		get => _rect;
 		set 
 		{
+			// Centering from the current position
 			if(AutoPosition)
 				value.Position = Vector2.Zero - value.Size / 2;
 
@@ -32,7 +31,7 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 			QueueRedraw();
 		}
 	}
-
+	
 	public override void _Draw()
 	{
 		DrawRect(Rect, Colors.Black, false);
@@ -42,6 +41,7 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 	{
 		var target = base.Spawn();
 
+		// Rect with { Size } to spawn so that the texture of target does not go beyond the rect
 		Vector2 randomPosition = _rand.GetRandomVector(Rect with { Size = Rect.Size - target.Size });
 		target.Position = randomPosition;
 

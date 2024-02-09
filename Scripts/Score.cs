@@ -7,12 +7,6 @@ public partial class Score : Node
 	[Signal]
 	public delegate void ScoreChangedEventHandler(int newValue);
 
-	public override void _Ready()
-	{
-		Game game = this.GetGame();
-		//game.OnStopped += GameStopped;
-	}
-
 	public void AddScore(ITarget amount)
 	{
 		Value += amount.ScoreForHit;
@@ -24,11 +18,6 @@ public partial class Score : Node
 		EmitScoreChanged();
 	}
 
-	private void GameStopped()
-	{
-		// Commented this because on Game.Stop() reloading scene
-		// ClearScore();
-	}
 	private void EmitScoreChanged()
 		=> EmitSignal(SignalName.ScoreChanged, Value);
 }
