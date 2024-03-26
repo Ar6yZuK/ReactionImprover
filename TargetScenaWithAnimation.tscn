@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://qaqlrw8w7jxg"]
+[gd_scene load_steps=7 format=3 uid="uid://b67xwsols4l8r"]
 
-[ext_resource type="Script" path="res://Scripts/Target.cs" id="1_0c5a8"]
+[ext_resource type="Script" path="res://Scripts/Target.cs" id="1_e8c0t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbkrh"]
 bg_color = Color(0.8, 0.45098, 0.760784, 1)
@@ -40,4 +40,4 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_jj7iw")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e5iq3")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_iurvt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_frwes")
-script = ExtResource("1_0c5a8")
+script = ExtResource("1_e8c0t")

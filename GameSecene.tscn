@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkye64pkdsho8"]
+[gd_scene load_steps=13 format=3 uid="uid://dkye64pkdsho8"]
 
 [ext_resource type="Script" path="res://Scripts/PauseButton.cs" id="1_uynao"]
 [ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
 [ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
-[ext_resource type="PackedScene" uid="uid://qaqlrw8w7jxg" path="res://TargetScena.tscn" id="5_j5iiy"]
+[ext_resource type="PackedScene" uid="uid://b67xwsols4l8r" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
+[ext_resource type="Script" path="res://TextCreator.cs" id="5_fhe8i"]
+[ext_resource type="PackedScene" uid="uid://d07v1cjxpikv4" path="res://FloatingLabel.tscn" id="6_qc61x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
 bg_color = Color(0, 0.678431, 0.745098, 1)
@@ -68,7 +70,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(920, 504)
 script = ExtResource("4_anjhx")
 Rect = Rect2(-500, -250, 1000, 500)
-_targetPrefab = ExtResource("5_j5iiy")
+_targetPrefab = ExtResource("4_ja03c")
 
 [node name="Timer" type="Timer" parent="CanvasLayer/TargetSpawner"]
 wait_time = 0.5
@@ -77,6 +79,11 @@ autostart = true
 [node name="Score" type="Node2D" parent="."]
 script = ExtResource("2_i5jwi")
 
+[node name="TimeOfLifeTextCreator" type="Node2D" parent="."]
+script = ExtResource("5_fhe8i")
+_labelPrefab = ExtResource("6_qc61x")
+
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="Score" method="SubscribeToTarget"]
+[connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="TimeOfLifeTextCreator" method="SubscribeToTargetPressed"]
 [connection signal="timeout" from="CanvasLayer/TargetSpawner/Timer" to="CanvasLayer/TargetSpawner" method="Spawn"]
 [connection signal="ScoreChanged" from="Score" to="CanvasLayer/ScoreLabel" method="OnScoreChanged"]

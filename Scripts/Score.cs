@@ -18,7 +18,7 @@ public partial class Score : Node
 	}
 
 	private void SubscribeToTarget(Target spawnedTarget)
-		=> spawnedTarget.Connect(Target.SignalName.OnTargetPressed, Callable.From(new System.Action<Target>(AddScore)));
+		=> spawnedTarget.Connect(Target.SignalName.OnTargetPressed, Callable.From<Target>(AddScore));
 
 	private void EmitScoreChanged()
 		=> EmitSignal(SignalName.ScoreChanged, Value);
