@@ -12,13 +12,19 @@ config_version=5
 
 config/name="ReactionImprover"
 config/version="0.0.2"
-run/main_scene="res://MainScene.tscn"
+run/main_scene="res://GameSecene.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Game="*res://Scripts/Game.cs"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
 
 [dotnet]
 

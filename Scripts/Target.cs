@@ -6,13 +6,13 @@ public interface ITarget
 }
 public partial class Target : BaseButton, ITarget
 {
-	private Score _score = null!;
+	[Signal] public delegate void OnTargetPressedEventHandler(Target target);
 
 	public virtual int ScoreForHit { get; } = 1;
 
-	public override void _Ready()
-		=> _score = this.GetScore();
-
 	public override void _Pressed()
-		=> _score.AddScore(this);
+	{
+		EmitSignal(SignalName.OnTargetPressed, this);
+		this.QueueFree(); // Maybe add flag if FreeOnPressed
+	}
 }

@@ -13,8 +13,7 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 		get => _autoPosition;
 		set
 		{
-			if(_autoPosition = value)
-				Rect = _rect;
+			if(_autoPosition = value) Rect = _rect;
 		}
 	}
 

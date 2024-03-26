@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkye64pkdsho8"]
+
+[ext_resource type="Script" path="res://Scripts/PauseButton.cs" id="1_uynao"]
+[ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
+[ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
+[ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
+[ext_resource type="PackedScene" uid="uid://qaqlrw8w7jxg" path="res://TargetScena.tscn" id="5_j5iiy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
+bg_color = Color(0, 0.678431, 0.745098, 1)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2405"]
+bg_color = Color(0, 0.815686, 0.898039, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4im0d"]
+bg_color = Color(0, 0.290196, 0.321569, 1)
+corner_radius_top_left = 55
+corner_radius_top_right = 55
+corner_radius_bottom_right = 55
+corner_radius_bottom_left = 55
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptu8u"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_82n6w"]
+font_size = 28
+
+[node name="GameScene" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause button" type="Button" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -130.0
+offset_top = 56.0
+offset_right = -40.0
+offset_bottom = 146.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b2405")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4im0d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ptu8u")
+text = "||"
+script = ExtResource("1_uynao")
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+offset_left = 92.0
+offset_top = 85.0
+offset_right = 197.0
+offset_bottom = 127.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_82n6w")
+script = ExtResource("3_xjhy5")
+metadata/_edit_use_anchors_ = true
+
+[node name="TargetSpawner" type="Node2D" parent="CanvasLayer"]
+position = Vector2(920, 504)
+script = ExtResource("4_anjhx")
+Rect = Rect2(-500, -250, 1000, 500)
+_targetPrefab = ExtResource("5_j5iiy")
+
+[node name="Timer" type="Timer" parent="CanvasLayer/TargetSpawner"]
+wait_time = 0.5
+autostart = true
+
+[node name="Score" type="Node2D" parent="."]
+script = ExtResource("2_i5jwi")
+
+[connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="Score" method="SubscribeToTarget"]
+[connection signal="timeout" from="CanvasLayer/TargetSpawner/Timer" to="CanvasLayer/TargetSpawner" method="Spawn"]
+[connection signal="ScoreChanged" from="Score" to="CanvasLayer/ScoreLabel" method="OnScoreChanged"]
