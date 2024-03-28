@@ -1,12 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://dkye64pkdsho8"]
+[gd_scene load_steps=17 format=3 uid="uid://dkye64pkdsho8"]
 
 [ext_resource type="Script" path="res://Scripts/PauseButton.cs" id="1_uynao"]
 [ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
 [ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
-[ext_resource type="PackedScene" uid="uid://crfubjd5k8yel" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
+[ext_resource type="PackedScene" uid="uid://b67xwsols4l8r" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
 [ext_resource type="Script" path="res://Scripts/TextCreator.cs" id="5_fhe8i"]
-[ext_resource type="PackedScene" uid="uid://bnbts7ys4hu2l" path="res://FloatingLabel.tscn" id="6_qc61x"]
+[ext_resource type="PackedScene" uid="uid://d07v1cjxpikv4" path="res://FloatingLabel.tscn" id="6_qc61x"]
+[ext_resource type="AudioStream" uid="uid://cgly7ex0ldl62" path="res://target_pop.mp3" id="8_q0j8p"]
+[ext_resource type="Script" path="res://Scripts/TargetPressedAudioPlayer.cs" id="9_ao7yd"]
+[ext_resource type="AudioStream" uid="uid://b1e7etuxmoain" path="res://spawned.mp3" id="10_q3bk5"]
+[ext_resource type="Script" path="res://Scripts/TargetSpawnedAudioPlayer.cs" id="11_18lxs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
 bg_color = Color(0, 0.678431, 0.745098, 1)
@@ -83,7 +87,20 @@ script = ExtResource("2_i5jwi")
 script = ExtResource("5_fhe8i")
 _labelPrefab = ExtResource("6_qc61x")
 
+[node name="OnTargetPressedAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_q0j8p")
+volume_db = 2.3
+script = ExtResource("9_ao7yd")
+
+[node name="OnTargetSpawnedAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_q3bk5")
+volume_db = -16.0
+attenuation = 0.68302
+script = ExtResource("11_18lxs")
+
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="Score" method="SubscribeToTarget"]
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="TimeOfLifeTextCreator" method="SubscribeToTargetPressed"]
+[connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="OnTargetPressedAudioPlayer" method="SubscribeToTarget"]
+[connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="OnTargetSpawnedAudioPlayer" method="SubscribeToTarget"]
 [connection signal="timeout" from="CanvasLayer/TargetSpawner/Timer" to="CanvasLayer/TargetSpawner" method="Spawn"]
 [connection signal="ScoreChanged" from="Score" to="CanvasLayer/ScoreLabel" method="OnScoreChanged"]

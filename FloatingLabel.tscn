@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d07v1cjxpikv4"]
 
-[ext_resource type="Script" path="res://Scripts/FloatingLabel.cs" id="1_n5sbv"]
+[ext_resource type="Script" path="res://Scripts/FloatingLabel.cs" id="1_fg7tx"]
 
 [sub_resource type="Animation" id="Animation_q32fe"]
 resource_name = "Float"
@@ -58,7 +58,7 @@ offset_top = -20.0
 offset_right = 39.9998
 offset_bottom = 3.00004
 text = "Text"
-script = ExtResource("1_n5sbv")
+script = ExtResource("1_fg7tx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
