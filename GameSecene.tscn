@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
 [ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
-[ext_resource type="PackedScene" uid="uid://b67xwsols4l8r" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
-[ext_resource type="Script" path="res://TextCreator.cs" id="5_fhe8i"]
-[ext_resource type="PackedScene" uid="uid://d07v1cjxpikv4" path="res://FloatingLabel.tscn" id="6_qc61x"]
+[ext_resource type="PackedScene" uid="uid://crfubjd5k8yel" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
+[ext_resource type="Script" path="res://Scripts/TextCreator.cs" id="5_fhe8i"]
+[ext_resource type="PackedScene" uid="uid://bnbts7ys4hu2l" path="res://FloatingLabel.tscn" id="6_qc61x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
 bg_color = Color(0, 0.678431, 0.745098, 1)

@@ -13,7 +13,12 @@ public partial class Target : BaseButton, ITarget
 
 	private DateTime _creationTime;
 
-	public TimeSpan TimeOfLife => DateTime.Now - _creationTime;
+	private TimeSpan? _timeOfLifeFrozen;
+	/// <summary>
+	/// On pressed it will be freeze
+	/// </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0030", Justification = "I think this code is more optimized")]
+	public TimeSpan TimeOfLife => _timeOfLifeFrozen.HasValue ? _timeOfLifeFrozen.Value : DateTime.Now - _creationTime;
 	public virtual int ScoreForHit { get; } = 1;
 
 	public override void _Ready()
@@ -23,6 +28,7 @@ public partial class Target : BaseButton, ITarget
 
 	public override void _Pressed()
 	{
+		_timeOfLifeFrozen = TimeOfLife;
 		EmitSignal(SignalName.OnTargetPressed, this);
 		this.QueueFree(); // Maybe add flag if FreeOnPressed
 	}

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d07v1cjxpikv4"]
 
-[ext_resource type="Script" path="res://FloatingLabel.cs" id="1_n5sbv"]
+[ext_resource type="Script" path="res://Scripts/FloatingLabel.cs" id="1_n5sbv"]
 
 [sub_resource type="Animation" id="Animation_q32fe"]
 resource_name = "Float"
