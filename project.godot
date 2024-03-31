@@ -16,10 +16,6 @@ run/main_scene="res://GameSecene.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Game="*res://Scripts/Game.cs"
-
 [display]
 
 window/size/viewport_width=1920
