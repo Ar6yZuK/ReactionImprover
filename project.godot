@@ -11,14 +11,10 @@ config_version=5
 [application]
 
 config/name="ReactionImprover"
-config/version="0.1.1"
+config/version="0.2.0"
 run/main_scene="res://GameSecene.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
-
-[autoload]
-
-Game="*res://Scripts/Game.cs"
 
 [display]
 

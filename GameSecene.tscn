@@ -1,11 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://dkye64pkdsho8"]
+[gd_scene load_steps=24 format=3 uid="uid://dkye64pkdsho8"]
 
-[ext_resource type="Script" path="res://Scripts/PauseButton.cs" id="1_uynao"]
+[ext_resource type="Script" path="res://Scripts/FreeAfterTime.cs" id="1_anjd8"]
 [ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
 [ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
 [ext_resource type="PackedScene" uid="uid://b67xwsols4l8r" path="res://TargetScenaWithAnimation.tscn" id="4_ja03c"]
 [ext_resource type="Script" path="res://Scripts/TextCreator.cs" id="5_fhe8i"]
+[ext_resource type="Script" path="res://Scripts/PauseMenu.cs" id="5_s4pxe"]
+[ext_resource type="Script" path="res://Scripts/SettingsMenu.cs" id="6_k2bjw"]
 [ext_resource type="PackedScene" uid="uid://d07v1cjxpikv4" path="res://FloatingLabel.tscn" id="6_qc61x"]
 [ext_resource type="AudioStream" uid="uid://cgly7ex0ldl62" path="res://target_pop.mp3" id="8_q0j8p"]
 [ext_resource type="Script" path="res://Scripts/TargetPressedAudioPlayer.cs" id="9_ao7yd"]
@@ -38,11 +40,57 @@ corner_radius_bottom_left = 55
 [sub_resource type="LabelSettings" id="LabelSettings_82n6w"]
 font_size = 28
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xu5ri"]
+bg_color = Color(0.0862745, 0.223529, 0.396078, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3ffq"]
+bg_color = Color(0.172549, 0.117647, 0.207843, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4u5j"]
+bg_color = Color(0.113725, 0.0745098, 0.137255, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgbku"]
+bg_color = Color(0.0588235, 0.0313726, 0.0745098, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x0yrk"]
+
 [node name="GameScene" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Label2" type="Label" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0.615686)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -570.0
+offset_top = 5.0
+offset_right = -36.0
+offset_bottom = 52.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 34
+text = "Hover on pause button to Pause"
+script = ExtResource("1_anjd8")
+DieAfterSeconds = 30.0
+
 [node name="Pause button" type="Button" parent="CanvasLayer"]
+process_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -58,7 +106,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_k1jjq")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4im0d")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ptu8u")
 text = "||"
-script = ExtResource("1_uynao")
 
 [node name="ScoreLabel" type="Label" parent="CanvasLayer"]
 offset_left = 92.0
@@ -80,6 +127,195 @@ _targetPrefab = ExtResource("4_ja03c")
 wait_time = 0.5
 autostart = true
 
+[node name="Pause Menu" type="Panel" parent="CanvasLayer"]
+process_mode = 2
+visible = false
+modulate = Color(1, 1, 1, 0.470588)
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -319.5
+offset_top = -290.0
+offset_right = 319.5
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xu5ri")
+script = ExtResource("5_s4pxe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 25.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Pause Menu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Hover on Resume to resume"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Pause Menu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 110)
+layout_mode = 2
+theme_override_font_sizes/font_size = 53
+theme_override_styles/normal = SubResource("StyleBoxFlat_d3ffq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t4u5j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vgbku")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x0yrk")
+text = "Resume"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Pause Menu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Restart Level" type="Button" parent="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(400, 110)
+layout_mode = 2
+theme_override_font_sizes/font_size = 53
+theme_override_styles/normal = SubResource("StyleBoxFlat_d3ffq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t4u5j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vgbku")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x0yrk")
+text = "Restart"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Pause Menu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Settings" type="Button" parent="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(400, 110)
+layout_mode = 2
+theme_override_font_sizes/font_size = 53
+theme_override_styles/normal = SubResource("StyleBoxFlat_d3ffq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t4u5j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vgbku")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x0yrk")
+text = "Settings"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/Pause Menu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Quit" type="Button" parent="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(400, 110)
+layout_mode = 2
+theme_override_font_sizes/font_size = 53
+theme_override_styles/normal = SubResource("StyleBoxFlat_d3ffq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t4u5j")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vgbku")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x0yrk")
+text = "Quit"
+
+[node name="Settings" type="Panel" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0.705882)
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.0
+offset_top = -123.0
+offset_right = 105.0
+offset_bottom = 123.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_k2bjw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Master Volume" type="Label" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 27
+text = "Master volume"
+
+[node name="MasterSlider" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.03
+max_value = 2.0
+step = 0.05
+value = 1.03
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Pop sound" type="Label" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 27
+text = "Pop sound"
+
+[node name="PopSlider" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+min_value = 0.03
+max_value = 2.0
+step = 0.05
+value = 0.48
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Spawn sound" type="Label" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 27
+text = "Spawn sound"
+
+[node name="SpawnSlider" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+min_value = 0.03
+max_value = 2.0
+step = 0.05
+value = 0.08
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
 [node name="Score" type="Node2D" parent="."]
 script = ExtResource("2_i5jwi")
 
@@ -88,19 +324,29 @@ script = ExtResource("5_fhe8i")
 _labelPrefab = ExtResource("6_qc61x")
 
 [node name="OnTargetPressedAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 stream = ExtResource("8_q0j8p")
-volume_db = 2.3
+bus = &"Pop"
 script = ExtResource("9_ao7yd")
 
 [node name="OnTargetSpawnedAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 stream = ExtResource("10_q3bk5")
-volume_db = -16.0
 attenuation = 0.68302
+bus = &"Spawn"
 script = ExtResource("11_18lxs")
 
+[connection signal="gui_input" from="CanvasLayer/Pause button" to="CanvasLayer/Pause Menu" method="PauseHover"]
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="Score" method="SubscribeToTarget"]
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="TimeOfLifeTextCreator" method="SubscribeToTargetPressed"]
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="OnTargetPressedAudioPlayer" method="SubscribeToTarget"]
 [connection signal="OnTargetSpawned" from="CanvasLayer/TargetSpawner" to="OnTargetSpawnedAudioPlayer" method="SubscribeToTarget"]
 [connection signal="timeout" from="CanvasLayer/TargetSpawner/Timer" to="CanvasLayer/TargetSpawner" method="Spawn"]
+[connection signal="gui_input" from="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer/Resume" to="CanvasLayer/Pause Menu" method="ResumeHover"]
+[connection signal="pressed" from="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer2/Restart Level" to="CanvasLayer/Pause Menu" method="Restart"]
+[connection signal="pressed" from="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer3/Settings" to="CanvasLayer/Pause Menu" method="Settings"]
+[connection signal="pressed" from="CanvasLayer/Pause Menu/VBoxContainer/HBoxContainer4/Quit" to="CanvasLayer/Pause Menu" method="Quit"]
+[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MasterSlider" to="CanvasLayer/Settings" method="SetMasterDB"]
+[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/PopSlider" to="CanvasLayer/Settings" method="SetPopDB"]
+[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/HBoxContainer3/VBoxContainer/SpawnSlider" to="CanvasLayer/Settings" method="SetSpawnDB"]
 [connection signal="ScoreChanged" from="Score" to="CanvasLayer/ScoreLabel" method="OnScoreChanged"]
