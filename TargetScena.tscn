@@ -40,4 +40,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_jj7iw")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e5iq3")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_iurvt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_frwes")
+action_mode = 0
 script = ExtResource("1_0c5a8")

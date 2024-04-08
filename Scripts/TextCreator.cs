@@ -1,5 +1,7 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 using System;
+using System.Collections.Generic;
 
 public partial class TextCreator : Node2D
 {
@@ -12,37 +14,54 @@ public partial class TextCreator : Node2D
 
 	public override void _Ready()
 	{
-		_canvas = GetNode<CanvasLayer>("/root/GameScene/CanvasLayer");
+		_canvas = this.GetParentRecursive<CanvasLayer>();
+	}
+	public override void _EnterTree()
+	{
+		this.GetTargetSpawner()
+			.ConnectOnTargetPressed(CreateTextOnCanvas);
 	}
 
-	public void CreateTextOnCanvas(Target target) // Why i cant use ITarget target :C
+	// Pool. FloatingLabel is frees when float up, but parent not frees
+	private readonly List<Node2D> _parents = [];
+	public void CreateTextOnCanvas(Target target)
 	{
 		// TODO: Make label pool
 		var label = _labelPrefab.Instantiate<Label>();
-		label.Text = CreateText(target.TimeOfLife);
+		var (text, color) = CreateText(target.TimeOfLife);
+		label.Text = text;
+		// Colorize text
+		label.Set("theme_override_colors/font_color", color);
 
 		// Create parent node to animation be relative
-		var parent = new Node2D { Position = target.GlobalPosition };
+		Node2D? parent = GetParent(out bool containsOnCanvas);
+
+		parent.Position = target.GlobalPosition;
 		parent.AddChild(label);
 
 		// Add to canvas
-		_canvas.AddChild(parent);
+		if (!containsOnCanvas)
+			_canvas.AddChild(parent);
 
-		static string CreateText(in TimeSpan time)
+		static (string, Color) CreateText(in TimeSpan time)
 		{
 			if (time < OneSecond)
-				return $"0.{time.Milliseconds}S :)";
+				return ($"0.{time.Milliseconds}S :)", Colors.Green);
 
 			if (time < OneMinute)
-				return $"{time.Seconds}.{time.Milliseconds}S";
+				return ($"{time.Seconds}.{time.Milliseconds}S", Colors.White);
 
 			// Over a minute
-			return $"{time.Minutes}:{time.Seconds} :(";
+			return ($"{time.Minutes}:{time.Seconds} :(", Colors.Red);
 		}
-	}
+		Node2D GetParent(out bool containsOnCanvas)
+		{
+			var parent = _parents.Find(x => x.GetChildCount() == 0);
+			containsOnCanvas = parent is not null;
+			if (!containsOnCanvas)
+				_parents.Add(parent = new Node2D());
 
-	private void SubscribeToTargetPressed(Target target)
-	{
-		target.Connect(Target.SignalName.OnTargetPressed, Callable.From<Target>(CreateTextOnCanvas));
+			return parent!;
+		}
 	}
 }

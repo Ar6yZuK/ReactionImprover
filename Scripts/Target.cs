@@ -1,4 +1,5 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 using System;
 
 // TODO: Maybe delete ITarget because godot not support interfaces
@@ -23,6 +24,9 @@ public partial class Target : BaseButton, ITarget
 
 	public override void _Ready()
 	{
+		this.GetTargetSpawner()
+			.EmitSignal(TargetSpawner.SignalName.OnTargetSpawned, this);
+
 		_creationTime = DateTime.Now;
 	}
 

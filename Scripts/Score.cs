@@ -1,4 +1,5 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 
 public partial class Score : Node
 {
@@ -6,20 +7,18 @@ public partial class Score : Node
 
 	[Signal] public delegate void ScoreChangedEventHandler(int newValue);
 
+	public override void _EnterTree()
+	{
+		this.GetTargetSpawner()
+			.ConnectOnTargetPressed(AddScore);
+	}
+
 	public void AddScore(ITarget amount)
 	{
 		Value += amount.ScoreForHit;
 		EmitScoreChanged();
 	}
-	public void ClearScore()
-	{
-		Value = 0;
-		EmitScoreChanged();
-	}
-
-	private void SubscribeToTarget(Target spawnedTarget)
-		=> spawnedTarget.Connect(Target.SignalName.OnTargetPressed, Callable.From<Target>(AddScore));
-
+	
 	private void EmitScoreChanged()
 		=> EmitSignal(SignalName.ScoreChanged, Value);
 }

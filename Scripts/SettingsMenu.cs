@@ -16,7 +16,7 @@ public partial class SettingsMenu : Control
 	private int _spawn;
 	private int _pop;
 
-	private ConfigFile<Volumes> _volumesPreferences;
+	private MyConfigFile _preferences;
 
 	#region Drag control
 	private bool _lifted;
@@ -45,20 +45,22 @@ public partial class SettingsMenu : Control
 		_popAudioPlayer = GetNode<TargetPressedAudioPlayer>("/root/GameScene/OnTargetPressedAudioPlayer");
 		_spawnAudioPlayer = GetNode<TargetSpawnedAudioPlayer>("/root/GameScene/OnTargetSpawnedAudioPlayer");
 
-		_volumesPreferences = new();
+		_preferences = new();
+		_preferences.Load()
+			.DebugLogIfError(loadError => $"Loading {_preferences._path} has error: {loadError}");
 
 		InstantiateFromConfigFile();
 
 		void InstantiateFromConfigFile()
 		{
-			SetMasterDB(_volumesPreferences.GetValue(_masterVolumeProperty, 1.03f).AsSingle());
+			SetMasterDB(_preferences.GetValue(_masterVolumeProperty, 1.03f).AsSingle());
 			SetVolumeFor(_pop, _popVolumeProperty);
 			SetVolumeFor(_spawn, _spawnVolumeProperty);
 
 			// Set without Play
 			void SetVolumeFor(int busIndex, Expression<Func<Volumes, Variant>> propertyAccessExpression)
 			{
-				float amount = _volumesPreferences.GetValue(propertyAccessExpression, Mathf.DbToLinear(AudioServer.GetBusVolumeDb(busIndex))).AsSingle();
+				float amount = _preferences.GetValue(propertyAccessExpression, Mathf.DbToLinear(AudioServer.GetBusVolumeDb(busIndex))).AsSingle();
 				this.SetVolumeFor(busIndex, propertyAccessExpression, amount);
 			}
 		}
@@ -90,6 +92,6 @@ public partial class SettingsMenu : Control
 		AudioServer.SetBusMute(busIndex, amount <= amountOnMute);
 
 		AudioServer.SetBusVolumeDb(busIndex, Mathf.LinearToDb(amount));
-		_volumesPreferences.SetValueWithSave(propertyAccessExpression, amount);
+		_preferences.SetValueWithSave(propertyAccessExpression, amount);
 	}
 }

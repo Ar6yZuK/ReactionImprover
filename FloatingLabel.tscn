@@ -55,8 +55,10 @@ _data = {
 
 [node name="Label" type="Label"]
 offset_top = -20.0
-offset_right = 39.9998
-offset_bottom = 3.00004
+offset_right = 52.0
+offset_bottom = 15.0
+scale = Vector2(0.6, 0.6)
+theme_override_font_sizes/font_size = 25
 text = "Text"
 script = ExtResource("1_fg7tx")
 

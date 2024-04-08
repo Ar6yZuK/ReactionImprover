@@ -1,50 +1,35 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 
-[Tool]
-public partial class RandomPositionTargetSpawner : TargetSpawner
+public partial class RandomPositionTargetSpawner : Node2D, ITargetSpawner
 {
-	private readonly RandomNumberGenerator _rand = new();
+	private RectDrawer _drawer;
+	private RandomNumberGenerator _rand = null!;
 
-	private bool _autoPosition = true;
-	private Rect2 _rect;
+	private TargetSpawner _targetSpawner;
 
-	[Export] bool AutoPosition
+	public override void _Ready()
 	{
-		get => _autoPosition;
-		set
-		{
-			if(_autoPosition = value) Rect = _rect;
-		}
+		_drawer = GetNode<RectDrawer>("CanvasLayer/Drawer");
+		_rand = new();
+		_targetSpawner = this.GetTargetSpawner();
 	}
 
-	[Export] Rect2 Rect
-	{ 
-		get => _rect;
-		set 
-		{
-			// Centering from the current position
-			if(AutoPosition)
-				value.Position = Vector2.Zero - value.Size / 2;
-
-			_rect = value;
-			QueueRedraw();
-		}
-	}
-	
-	public override void _Draw()
+	public Target Spawn()
 	{
-		DrawRect(Rect, Colors.Black, false);
-	}
-
-	public override Target Spawn()
-	{
-		var target = base.Spawn();
-
+		var target = _targetSpawner.Spawn();
+		Transform2D transformator = _targetSpawner.ParentForSpawned.GetCanvasTransform().AffineInverse();
+		Rect2 rect = _drawer.GetRect();
+		var localizedRect = transformator.TransformToLocal(rect);
 		// Rect with { Size } to spawn so that the texture of target does not go beyond the rect
-		Vector2 randomPosition = _rand.GetRandomVector(Rect with { Size = Rect.Size - target.Size });
+		localizedRect = Slice(localizedRect, target.Size);
+		Vector2 randomPosition = _rand.GetRandomVector(localizedRect);
 		target.Position = randomPosition;
 
 		return target;
+
+		static Rect2 Slice(Rect2 rect, Vector2 size)
+			=> rect with { Size = rect.Size - size };
 	}
 
 	protected override void Dispose(bool disposing)
@@ -52,6 +37,6 @@ public partial class RandomPositionTargetSpawner : TargetSpawner
 		if (!disposing)
 			return;
 
-		_rand.Dispose();
+		_rand?.Dispose();
 	}
 }

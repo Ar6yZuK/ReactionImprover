@@ -1,9 +1,11 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 
 public partial class TargetSpawnedAudioPlayer : AudioStreamPlayer2D
 {
-	private void SubscribeToTarget(Target _)
+	public override void _EnterTree()
 	{
-		Play();
+		this.GetTargetSpawner()
+			.ConnectOnTargetSpawned(target => Play());
 	}
 }

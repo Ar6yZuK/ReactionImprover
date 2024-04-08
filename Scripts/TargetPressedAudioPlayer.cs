@@ -1,9 +1,11 @@
 using Godot;
+using ReactionImprover.Scripts.Extensions;
 
 public partial class TargetPressedAudioPlayer : AudioStreamPlayer2D
 {
-	private void SubscribeToTarget(Target spawnedTarget)
+	public override void _EnterTree()
 	{
-		spawnedTarget.Connect(Target.SignalName.OnTargetPressed, Callable.From<Target>(delegate { Play(); }));
+		this.GetTargetSpawner()
+			.ConnectOnTargetPressed(target => Play());
 	}
 }

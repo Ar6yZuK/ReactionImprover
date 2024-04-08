@@ -1,4 +1,5 @@
 # Normalize EOL for all files that Git considers text files.
+*.cs text=auto eol=crlf
 *.tscn text=auto eol=lf
 export_presets.cfg text=auto eol=lf
 project.godot text=auto eol=lf

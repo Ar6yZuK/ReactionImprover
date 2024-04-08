@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ReactionImprover"
-config/version="0.2.0"
+config/version="0.3.0"
 run/main_scene="res://GameSecene.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [dotnet]
 
