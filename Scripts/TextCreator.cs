@@ -46,10 +46,10 @@ public partial class TextCreator : Node2D
 		static (string, Color) CreateText(in TimeSpan time)
 		{
 			if (time < OneSecond)
-				return ($"0.{time.Milliseconds}S :)", Colors.Green);
+				return ($"0.{time.Milliseconds}s :)", Colors.Green);
 
 			if (time < OneMinute)
-				return ($"{time.Seconds}.{time.Milliseconds}S", Colors.White);
+				return ($"{time.Seconds}.{time.Milliseconds}s", Colors.White);
 
 			// Over a minute
 			return ($"{time.Minutes}:{time.Seconds} :(", Colors.Red);

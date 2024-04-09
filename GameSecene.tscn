@@ -1,8 +1,9 @@
-[gd_scene load_steps=27 format=3 uid="uid://dkye64pkdsho8"]
+[gd_scene load_steps=29 format=3 uid="uid://dkye64pkdsho8"]
 
 [ext_resource type="Script" path="res://Scripts/FreeAfterTime.cs" id="1_anjd8"]
 [ext_resource type="Script" path="res://Scripts/Score.cs" id="2_i5jwi"]
 [ext_resource type="Script" path="res://Scripts/RectDrawer.cs" id="2_pjoxj"]
+[ext_resource type="Script" path="res://Scripts/AverageTimeLabel.cs" id="3_qpidx"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="3_xjhy5"]
 [ext_resource type="Script" path="res://Scripts/RandomPositionTargetSpawner.cs" id="4_anjhx"]
 [ext_resource type="Script" path="res://Scripts/GameCanvas.cs" id="5_eiku7"]
@@ -16,6 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://qaqlrw8w7jxg" path="res://TargetScena.tscn" id="10_o65b7"]
 [ext_resource type="AudioStream" uid="uid://b1e7etuxmoain" path="res://spawned.mp3" id="10_q3bk5"]
 [ext_resource type="Script" path="res://Scripts/TargetSpawnedAudioPlayer.cs" id="11_18lxs"]
+[ext_resource type="Script" path="res://Scripts/AverageTimeCounter.cs" id="14_ftm1q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_82n6w"]
+font_size = 28
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k1jjq"]
 bg_color = Color(0, 0.678431, 0.745098, 1)
@@ -39,9 +44,6 @@ corner_radius_bottom_right = 55
 corner_radius_bottom_left = 55
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ptu8u"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_82n6w"]
-font_size = 28
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xu5ri"]
 bg_color = Color(0.0862745, 0.223529, 0.396078, 1)
@@ -101,38 +103,32 @@ script = ExtResource("2_pjoxj")
 [node name="UICanvas" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Label2" type="Label" parent="UICanvas"]
-modulate = Color(1, 1, 1, 0.615686)
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -570.0
-offset_top = 5.0
-offset_right = -36.0
-offset_bottom = 52.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 34
-text = "Hover on pause button to Pause"
-script = ExtResource("1_anjd8")
-DieAfterSeconds = 30.0
+[node name="AverageTimeContainer" type="HBoxContainer" parent="UICanvas"]
+offset_left = 291.0
+offset_top = 75.0
+offset_right = 331.0
+offset_bottom = 115.0
 
-[node name="Pause button" type="Button" parent="UICanvas"]
-process_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -130.0
-offset_top = 56.0
-offset_right = -40.0
-offset_bottom = 146.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_k1jjq")
-theme_override_styles/hover = SubResource("StyleBoxFlat_b2405")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_k1jjq")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_4im0d")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ptu8u")
-text = "||"
+[node name="AverageTimeLabel" type="Label" parent="UICanvas/AverageTimeContainer"]
+layout_mode = 2
+text = "Average time: "
+label_settings = SubResource("LabelSettings_82n6w")
+metadata/_edit_use_anchors_ = true
+
+[node name="AverageTimeLabel2" type="Label" parent="UICanvas/AverageTimeContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_82n6w")
+script = ExtResource("3_qpidx")
+metadata/_edit_use_anchors_ = true
+
+[node name="AverageTimeLabel3" type="Label" parent="UICanvas/AverageTimeContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "s"
+label_settings = SubResource("LabelSettings_82n6w")
+script = ExtResource("3_qpidx")
+metadata/_edit_use_anchors_ = true
 
 [node name="ScoreContainer" type="HBoxContainer" parent="UICanvas"]
 offset_left = 104.0
@@ -152,6 +148,53 @@ text = "0"
 label_settings = SubResource("LabelSettings_82n6w")
 script = ExtResource("3_xjhy5")
 metadata/_edit_use_anchors_ = true
+
+[node name="PauseContainer" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -576.0
+offset_top = 13.0
+offset_right = -5.0
+offset_bottom = 157.0
+grow_horizontal = 0
+
+[node name="Pause button hint" type="Label" parent="UICanvas/PauseContainer"]
+modulate = Color(1, 1, 1, 0.615686)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 47.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 34
+text = "Hover on pause button to Pause"
+script = ExtResource("1_anjd8")
+DieAfterSeconds = 30.0
+
+[node name="Pause button" type="Button" parent="UICanvas/PauseContainer"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -122.0
+offset_top = -95.0
+offset_right = -32.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b2405")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_k1jjq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4im0d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ptu8u")
+text = "||"
 
 [node name="Pause Menu" type="Panel" parent="UICanvas"]
 process_mode = 2
@@ -342,6 +385,10 @@ value = 0.08
 layout_mode = 2
 alignment = 1
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas"]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="GameCanvas" type="CanvasLayer" parent="."]
 script = ExtResource("5_eiku7")
 
@@ -359,6 +406,9 @@ ParentForSpawned = NodePath("Parent")
 [node name="Score" type="Node2D" parent="."]
 script = ExtResource("2_i5jwi")
 
+[node name="AverageTimeCounter" type="Node2D" parent="."]
+script = ExtResource("14_ftm1q")
+
 [node name="OnTargetPressedAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 process_mode = 3
 stream = ExtResource("8_q0j8p")
@@ -373,7 +423,7 @@ bus = &"Spawn"
 script = ExtResource("11_18lxs")
 
 [connection signal="timeout" from="TargetSpawnerRand/Timer" to="TargetSpawnerRand" method="Spawn"]
-[connection signal="gui_input" from="UICanvas/Pause button" to="UICanvas/Pause Menu" method="PauseHover"]
+[connection signal="gui_input" from="UICanvas/PauseContainer/Pause button" to="UICanvas/Pause Menu" method="PauseHover"]
 [connection signal="gui_input" from="UICanvas/Pause Menu/VBoxContainer/HBoxContainer/Resume" to="UICanvas/Pause Menu" method="ResumeHover"]
 [connection signal="pressed" from="UICanvas/Pause Menu/VBoxContainer/HBoxContainer2/Restart Level" to="UICanvas/Pause Menu" method="Restart"]
 [connection signal="pressed" from="UICanvas/Pause Menu/VBoxContainer/HBoxContainer3/Settings" to="UICanvas/Pause Menu" method="Settings"]
@@ -382,3 +432,4 @@ script = ExtResource("11_18lxs")
 [connection signal="value_changed" from="UICanvas/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/PopSlider" to="UICanvas/Settings" method="SetPopDB"]
 [connection signal="value_changed" from="UICanvas/Settings/VBoxContainer/HBoxContainer3/VBoxContainer/SpawnSlider" to="UICanvas/Settings" method="SetSpawnDB"]
 [connection signal="ScoreChanged" from="Score" to="UICanvas/ScoreContainer/ScoreLabel2" method="OnScoreChanged"]
+[connection signal="AverageTimeChanged" from="AverageTimeCounter" to="UICanvas/AverageTimeContainer/AverageTimeLabel2" method="OnAverageTimeChanged"]
