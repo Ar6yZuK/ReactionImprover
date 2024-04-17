@@ -30,7 +30,16 @@ public partial class Target : BaseButton, ITarget
 		_creationTime = DateTime.Now;
 	}
 
-	public override void _Pressed()
+	public override void _Input(InputEvent @event)
+	{
+		// When user pressed outside and release on button. Maybe check if Target is pressed before. Now per one click may be "Pressed" two Targets, per press and release.
+		if (@event is InputEventMouseButton w && !w.Pressed && IsHovered())
+			TargetPressed();
+	}
+
+	public override void _Pressed() => TargetPressed();
+
+	private void TargetPressed()
 	{
 		_timeOfLifeFrozen = TimeOfLife;
 		EmitSignal(SignalName.OnTargetPressed, this);
